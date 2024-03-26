@@ -1,34 +1,38 @@
-from datetime import datetime
-from typing import Dict, List, Any
-
 from collections.abc import Iterable
+from datetime import datetime
+from typing import Any, Dict, List
 
 import redis
 from flask import (
     Blueprint,
     Response,
     current_app,
+    get_template_attribute,
     jsonify,
     redirect,
     render_template,
     request,
     url_for,
-    get_template_attribute,
 )
-
 from werkzeug.utils import cached_property
-from werkzeug.urls import url_quote_plus, url_unquote_plus
+
+try:
+    from werkzeug.urls import url_quote_plus, url_unquote_plus
+except ImportError:
+    from urllib.parse import quote_plus as url_quote_plus
+    from urllib.parse import unquote_plus as url_unquote_plus
+
+from .constant import BADGE_STYLE, CONFIG, INFO_GROUPS
 from .utils import (
-    _get_db_details,
-    _get_key_details,
-    _get_key_info,
     VALUE_SETTER_FUNCS,
     _decode_bytes,
-    _update_config,
-    _get_redis_conn_kwargs,
     _get_current_user_redis_cli,
+    _get_db_details,
+    _get_key_details,
+    _get_key_info,  # noqa: F401
+    _get_redis_conn_kwargs,
+    _update_config,
 )
-from .constant import BADGE_STYLE, INFO_GROUPS, CONFIG
 
 module = Blueprint(
     "redisboard",
@@ -63,7 +67,7 @@ class RedisServer:
     def databases(self) -> List:
         return [item[2:] for item in self.keyspace.keys()]
 
-    def slowlog_get(self, limit: int = None) -> Dict:
+    def slowlog_get(self, limit: int = 0) -> Dict:  # type: ignore
         try:
             count = limit if limit else current_app.config["REDISBOARD_SLOWLOG_LEN"]
             for slowlog in self.connection.slowlog_get(count):
@@ -165,7 +169,11 @@ def db_detail(db: int = 0) -> Response:
     # when search, use bigger paginate number
     count = 1000 if keypattern else 30
     key_details, next_cursor = _get_db_details(
-        server.connection, db, cursor=cursor, keypattern=keypattern, count=count
+        server.connection,  # type: ignore
+        db,
+        cursor=cursor,
+        keypattern=keypattern,
+        count=count,  # type: ignore
     )
     if cursor == 0:
         # render index page
@@ -424,7 +432,8 @@ def key_detail(db: int, key: str) -> Response:
     key = url_unquote_plus(key)
     if request.method == "POST":
         conn.set(key, request.form["value"])
-    key_details = _get_key_details(conn, db, key)
+
+    key_details = _get_key_details(conn, db, key)  # type: ignore
     return render_template(
         f"keydetail/{key_details['type']}.html", key_details=key_details, db=db
     )

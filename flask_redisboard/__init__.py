@@ -1,5 +1,12 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 from flask import Flask
-from werkzeug.urls import url_quote_plus
+
+try:
+    from werkzeug.urls import url_quote_plus
+except ImportError:
+    from urllib.parse import quote_plus as url_quote_plus
 
 from .redisboard import module
 

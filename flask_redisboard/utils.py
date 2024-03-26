@@ -1,11 +1,14 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import datetime
 import time
-from typing import List, Union, Tuple, Dict
+from typing import Dict, List, Tuple, Union
 from uuid import uuid4
 
+from flask import abort, current_app, session
 from redis import Redis
 from redis.exceptions import ResponseError
-from flask import abort, current_app, session
 
 
 def zset_getter(conn: Redis, key: str) -> List:
@@ -15,7 +18,7 @@ def zset_getter(conn: Redis, key: str) -> List:
 
 
 def set_getter(conn: Redis, key: str) -> str:
-    return ",   ".join([_decode_bytes(value) for value in conn.smembers(key)])
+    return ",   ".join([_decode_bytes(value) for value in conn.smembers(key)])  # type: ignore
 
 
 def list_getter(conn: Redis, key: str) -> List:
@@ -90,7 +93,7 @@ def ttl_formatter(seconds: int) -> str:
 
 
 def _get_db_details(
-    conn: Redis, db: int, cursor: int = 0, keypattern: str = None, count: int = 20
+    conn: Redis, db: int, cursor: int = 0, keypattern: str = "", count: int = 20
 ) -> Tuple[List, int]:
     conn.execute_command("SELECT", db)
     keypattern = f"*{keypattern}*" if keypattern else None

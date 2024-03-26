@@ -2,9 +2,9 @@
 
 A flask extension to support user view and manage redis with beautiful interface.
 
-
 ## Preview
 
+~~~html
 <table align="center">
     <tr>
         <td align="center">
@@ -31,31 +31,37 @@ A flask extension to support user view and manage redis with beautiful interface
         </td>
     </tr>
 </table>
-
+~~~
 
 ## Get Started
 
 Installation is easy:
-```
-$ pip install flask-redisboard
-```
+
+~~~bash
+pip install flask-redisboard-too
+~~~
 
 ### Try to run
+
 Just type command:
-```
-$ redisboard
-```
+
+~~~bash
+redisboard
+~~~
 
 ### Run in flask
+
 Initialize the extension:
-```
+
+~~~python
 from flask_redisboard import RedisBoardExtension
 ...
 board = RedisBoardExtension(app)
-```
+~~~
 
 Also support for factory pattern:
-```
+
+~~~python
 from flask_redisboard import RedisBoardExtension
 from flask import Flask
 
@@ -71,6 +77,6 @@ def create_app():
 
 if __name__ == '__main__':
     create_app()
-```
+~~~
 
-Now, you can go to 127.0.0.1:5000/redisboard 
+Now, you can go to 127.0.0.1:5000/redisboard

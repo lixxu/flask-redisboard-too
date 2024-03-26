@@ -1,5 +1,9 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import click
-from flask import Flask, redirect, Response, url_for
+from flask import Flask, Response, redirect, url_for
+
 from flask_redisboard import RedisBoardExtension
 
 

@@ -1,13 +1,15 @@
 """
-    Flask-Redisboard
-    ~~~~~~~~~~~~~~
-    A flask extension to support user view and manage redis with beautiful interface.
-    :author: hjlarry<ultrahe@gmail.com>
-    :copyright: (c) 2019 by hjlarry.
-    :license: MIT, see LICENSE for more details.
+Flask-Redisboard
+~~~~~~~~~~~~~~
+A flask extension to support user view and manage redis with beautiful interface.
+:author: hjlarry<ultrahe@gmail.com>
+:copyright: (c) 2019 by hjlarry.
+:license: MIT, see LICENSE for more details.
 """
-from setuptools import setup
+
 import pathlib
+
+from setuptools import setup
 
 current_dir = pathlib.Path(__file__).parent
 with open(current_dir / "README.md", encoding="utf-8") as f:
@@ -17,11 +19,10 @@ with open(current_dir / "flask_redisboard" / "VERSION", encoding="utf-8") as f:
 
 
 setup(
-    name="Flask-Redisboard",
+    name="flask-redisboard-too",
     version=version,
-    url="https://github.com/hjlarry/flask-redisboard",
+    url="https://github.com/lixxu/flask-redisboard-too",
     license="MIT",
-    author="hjlarry",
     author_email="ultrahe@gmail.com",
     description="A flask extension to support user view and manage redis with beautiful interface.",
     long_description=long_description,
@@ -42,6 +43,10 @@ setup(
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
-    entry_points={"console_scripts": ["redisboard=flask_redisboard.example:main",]},
+    entry_points={
+        "console_scripts": [
+            "redisboard=flask_redisboard.example:main",
+        ]
+    },
     python_requires=">=3.6",
 )
