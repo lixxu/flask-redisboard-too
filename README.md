@@ -4,7 +4,6 @@ A flask extension to support user view and manage redis with beautiful interface
 
 ## Preview
 
-~~~html
 <table align="center">
     <tr>
         <td align="center">
@@ -31,7 +30,6 @@ A flask extension to support user view and manage redis with beautiful interface
         </td>
     </tr>
 </table>
-~~~
 
 ## Get Started
 
